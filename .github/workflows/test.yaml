@@ -28,4 +28,4 @@ jobs:
         with:
           name: report unittests
           path: '**/surefire-reports/TEST-*.xml'
-          reporter: jest-junit
+          reporter: java-junit
