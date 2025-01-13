@@ -6,8 +6,8 @@ on:
       browsers:
         description: 'Select browsers for testing'
         required: true
-        type: array
-        default:
+        type: choice
+        options:
          - "chrome"
          - "firefox"
 
