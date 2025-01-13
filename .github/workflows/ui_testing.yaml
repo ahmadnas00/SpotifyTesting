@@ -3,7 +3,7 @@ name: Selenium tests
 on:
   workflow_dispatch:
     inputs:
-      browsers:
+      browser:
         description: 'Select browsers for testing'
         required: true
         type: choice
