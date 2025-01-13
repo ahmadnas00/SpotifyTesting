@@ -1,4 +1,4 @@
-name: Test (single)
+name: Selenium tests
 
 on:
   workflow_dispatch:
