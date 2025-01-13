@@ -27,5 +27,5 @@ jobs:
         if: success() || failure()
         with:
           name: report unittests
-          path: '**/surefire-reports/TEST-*.xml'
+          path: 'target/surefire-reports/TEST-*.xml'
           reporter: java-junit
