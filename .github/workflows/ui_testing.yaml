@@ -3,6 +3,11 @@ name: Selenium tests
 on:
   workflow_dispatch:
     inputs:
+      grid_url:
+        required: true
+        type: string
+        description: Grid to run tests on (by default a local standalone grid)
+        default: http://localhost:4444
       browser:
         description: 'Select browsers for testing'
         required: true
@@ -10,9 +15,6 @@ on:
         options:
          - "chrome"
          - "firefox"
-
-env:
-  GRID_URL: http://localhost:4444
 
 jobs:
   Test:
@@ -35,6 +37,6 @@ jobs:
       - name: Run Tests
         env:
           BROWSER: ${{ github.event.inputs.browser }}
-          GRID_URL: ${GRID_URL}
+          GRID_URL: ${{ github.event.inputs.grid_url }}
         run: |
           mvn -q test

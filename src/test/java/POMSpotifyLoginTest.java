@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import static org.example.DriverFactory.getDriver;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class POMSpotifyLoginTest {
@@ -14,7 +15,7 @@ public class POMSpotifyLoginTest {
 
     @BeforeEach
     public void setUp() {
-        driver = new ChromeDriver();
+        driver = getDriver();
         driver.manage().window().maximize();
         driver.get("http://localhost:8082/login");
 
