@@ -1,0 +1,35 @@
+name: Test (single)
+
+on:
+  workflow_dispatch:
+    inputs:
+      browsers:
+        description: 'Select browsers for testing'
+        required: true
+        type: array
+        default:
+         - "chrome"
+         - "firefox"
+
+env:
+  GRID_URL: http://localhost:4444
+
+jobs:
+  Test:
+    runs-on: ubuntu-latest
+    services:
+      selenium:
+        image: selenium/standalone-${{ github.event.inputs.browser }}
+        options: --shm-size=2gb
+        port: 4444
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run Tests
+        env:
+          BROWSER: ${{ github.event.inputs.browser }}
+          GRID_URL: ${GRID_URL}
+        run: |
+          mvn -q test
