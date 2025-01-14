@@ -3,6 +3,7 @@ import org.example.LoginPage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -18,6 +19,8 @@ public class POMSpotifyLoginTest {
         driver = getDriver();
         driver.manage().window().maximize();
         driver.get("https://b47f-212-199-36-114.ngrok-free.app/login");
+
+        driver.findElement(By.tagName("button")).click();
 
         loginPage = new LoginPage(driver);
     }
