@@ -4,15 +4,14 @@ on:
   workflow_dispatch:
     inputs:
       local_grid:
-        description: Launch local grid as part of CI?
+        description: Local standalone grid
         type: boolean
         required: false
         default: true
 
       remote_grid_url:
-        required: true
         type: string
-        description: Remote grid (for non-local grid)
+        description: 'Otherwise, enter remote grid:'
 
       browser:
         description: 'Select browsers for testing'
