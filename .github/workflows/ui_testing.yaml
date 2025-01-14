@@ -6,32 +6,19 @@ on:
       grid_url:
         required: true
         type: string
-        description: Grid to run tests on (by default a local standalone grid)
+        description: Grid to run tests on
         default: http://localhost:4444
       browser:
         description: 'Select browsers for testing'
         required: true
         type: choice
         options:
-         - "chrome"
-         - "firefox"
-  workflow_call:
-    inputs:
-      region-code:
-        required: true
-        type: string
-      telegram-token-secret-name:
-        required: true
-        type: string
+          - "chrome"
+          - "firefox"
 
 jobs:
   Test:
     runs-on: ubuntu-latest
-    services:
-      selenium:
-        image: selenium/standalone-${{ github.event.inputs.browser }}
-        options: --shm-size=2gb
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -41,6 +28,11 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '23'
+
+      - name: Start the Selenium Server
+        if: ${{ !contains(github.event.inputs.grid_url, 'localhost') }}
+        run: |
+          docker run -d --shm-size="2g" --port 4444 selenium/standalone-${{ github.event.inputs.browser }}
 
       - name: Run Tests
         env:
