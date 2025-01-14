@@ -20,7 +20,9 @@ public class POMSpotifyLoginTest {
         driver.manage().window().maximize();
         driver.get("https://b47f-212-199-36-114.ngrok-free.app/login");
 
-        driver.findElement(By.tagName("button")).click();
+        if (driver.getTitle().contains("ERR_NGROK_6024")) {
+            driver.findElement(By.tagName("button")).click();
+        }
 
         loginPage = new LoginPage(driver);
     }
