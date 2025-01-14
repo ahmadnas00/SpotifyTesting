@@ -37,6 +37,6 @@ jobs:
       - name: Run Tests
         env:
           BROWSER: ${{ github.event.inputs.browser }}
-          GRID_URL: ${{ github.event.inputs.grid_url }}
+          GRID_URL: ${{ github.event.inputs.grid_url }}/wd/hub
         run: |
           mvn -q test
