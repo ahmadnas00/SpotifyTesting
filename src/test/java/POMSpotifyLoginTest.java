@@ -17,7 +17,7 @@ public class POMSpotifyLoginTest {
     public void setUp() {
         driver = getDriver();
         driver.manage().window().maximize();
-        driver.get("http://localhost:8082/login");
+        driver.get("https://b47f-212-199-36-114.ngrok-free.app/login");
 
         loginPage = new LoginPage(driver);
     }
