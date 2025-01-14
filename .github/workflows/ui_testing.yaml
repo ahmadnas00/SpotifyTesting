@@ -19,6 +19,11 @@ on:
 jobs:
   Test:
     runs-on: ubuntu-latest
+    services:
+      selenium:
+        image: selenium/standalone-${{ github.event.inputs.browser }}
+        options: --shm-size=2gb
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -28,12 +33,6 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '23'
-
-      - name: Start the Selenium Server
-        if: ${{ contains(github.event.inputs.grid_url, 'localhost') }}
-        run: |
-          curl -L -o selenium-server.jar https://github.com/SeleniumHQ/selenium/releases/download/selenium-4.27.0/selenium-server-4.27.0.jar
-          java -jar selenium-server.jar standalone &
 
       - name: Run Tests
         env:
