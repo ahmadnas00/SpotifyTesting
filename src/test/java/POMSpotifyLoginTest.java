@@ -3,9 +3,13 @@ import org.example.LoginPage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 import static org.example.DriverFactory.getDriver;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -18,10 +22,14 @@ public class POMSpotifyLoginTest {
     public void setUp() {
         driver = getDriver();
         driver.manage().window().maximize();
-        driver.get("https://b47f-212-199-36-114.ngrok-free.app/login");
+        driver.get("https://ded7-212-199-36-114.ngrok-free.app/login");
 
-        if (driver.getTitle().contains("ERR_NGROK_6024")) {
-            driver.findElement(By.tagName("button")).click();
+        try {
+            Wait<WebDriver> wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            WebElement visitSiteButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[text()='Visit Site']")));
+            visitSiteButton.click();
+        } catch (TimeoutException err) {
+            System.out.println("Ngrok warning page was not loaded");
         }
 
         loginPage = new LoginPage(driver);
