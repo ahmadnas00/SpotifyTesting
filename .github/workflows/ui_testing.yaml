@@ -3,16 +3,11 @@ name: Selenium tests
 on:
   workflow_dispatch:
     inputs:
-      local_grid:
-        description: Local standalone grid
-        type: boolean
-        required: false
-        default: true
-
-      remote_grid_url:
+      grid_url:
+        required: true
         type: string
-        description: 'Otherwise, enter remote grid:'
-
+        description: Grid to run tests on (local by default)
+        default: http://localhost:4444
       browser:
         description: 'Select browsers for testing'
         required: true
@@ -35,7 +30,7 @@ jobs:
           java-version: '23'
 
       - name: Start the Selenium Server
-        if: ${{ github.event.inputs.local_grid }}
+        if: ${{ contains(github.event.inputs.grid_url, 'localhost') }}
         run: |
           curl -L -o selenium-server.jar https://github.com/SeleniumHQ/selenium/releases/download/selenium-4.27.0/selenium-server-4.27.0.jar
           java -jar selenium-server.jar standalone &
