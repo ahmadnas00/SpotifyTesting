@@ -36,12 +36,10 @@ jobs:
       - name: Launch a standalone grid
 
         run: |
-          if [ "${{ github.event.inputs.browser }}" == "chrome" ]; then
+          if [ "${{ github.event.inputs.browser }}" = "chrome" ]; then
               IMAGE=$CHROME_GRID_IMAGE
-          
-          else if [ "${{ github.event.inputs.browser }}" == "firefox" ]; then
+          else if [ "${{ github.event.inputs.browser }}" = "firefox" ]; then
               IMAGE=$FIREFOX_GRID_IMAGE
-          
           else
               echo "invalid browser"
               exit 1
