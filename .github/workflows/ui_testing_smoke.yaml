@@ -17,8 +17,8 @@ on:
           - "firefox"
 
 env:
-  FIREFOX_GRID_IMAGE: selenium/standalone-chrome:131.0-chromedriver-131.0-grid-4.27.0-20250101
-  CHROME_GRID_IMAGE: selenium/standalone-firefox:133.0-geckodriver-0.35-grid-4.27.0-20250101
+  CHROME_GRID_IMAGE: selenium/standalone-chrome:131.0-chromedriver-131.0-grid-4.27.0-20250101
+  FIREFOX_GRID_IMAGE: selenium/standalone-firefox:133.0-geckodriver-0.35-grid-4.27.0-20250101
 
 jobs:
   Test:
@@ -52,7 +52,6 @@ jobs:
           BROWSER: ${{ github.event.inputs.browser }}
           GRID_URL: ${{ github.event.inputs.grid_url }}
         run: |
-          export 
           mvn -q test
 
       - name: Tear down grid
