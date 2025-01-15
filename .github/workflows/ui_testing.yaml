@@ -8,23 +8,19 @@ on:
         type: string
         description: Grid to run tests on (local by default)
         default: http://localhost:4444
-      browser:
-        description: 'Select browsers for testing'
-        required: true
-        type: choice
-        options:
-          - "chrome"
-          - "firefox"
+
+env:
+  CHROME_GRID_IMAGE: selenium/standalone-chrome:131.0-chromedriver-131.0-grid-4.27.0-20250101
+  FIREFOX_GRID_IMAGE: selenium/standalone-firefox:133.0-geckodriver-0.35-grid-4.27.0-20250101
 
 jobs:
   Test:
     runs-on: ubuntu-latest
-    services:
-      selenium:
-        image: selenium/standalone-${{ github.event.inputs.browser }}:131.0-chromedriver-131.0-grid-4.27.0-20250101
-        options: --shm-size=2gb
-        ports:
-          - 4444:4444
+    name: ${{ matrix.browser }}
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [ "chrome", "firefox" ]
 
     steps:
       - name: Checkout code
@@ -36,9 +32,28 @@ jobs:
           distribution: 'temurin'
           java-version: '23'
 
+      - name: Launch a standalone grid
+        if: ${{ contains(github.event.inputs.grid_url, 'localhost') }}
+        run: |
+          if [ "${{ matrix.browser }}" = "chrome" ]; then
+              IMAGE=$CHROME_GRID_IMAGE
+          elif [ "${{ matrix.browser }}" = "firefox" ]; then
+              IMAGE=$FIREFOX_GRID_IMAGE
+          else
+              echo "invalid browser"
+              exit 1
+          fi
+          
+          docker run --name grid_container -d -p 4444:4444 --shm-size=2gb $IMAGE
+
       - name: Run Tests
         env:
-          BROWSER: ${{ github.event.inputs.browser }}
+          BROWSER: ${{ matrix.browser }}
           GRID_URL: ${{ github.event.inputs.grid_url }}
         run: |
           mvn -q test
+
+      - name: Tear down grid if exists
+        if: always()
+        run: | 
+          docker stop grid_container || true
