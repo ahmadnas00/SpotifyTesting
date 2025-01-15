@@ -38,7 +38,7 @@ jobs:
         run: |
           if [ "${{ github.event.inputs.browser }}" = "chrome" ]; then
               IMAGE=$CHROME_GRID_IMAGE
-          else if [ "${{ github.event.inputs.browser }}" = "firefox" ]; then
+          elif [ "${{ github.event.inputs.browser }}" = "firefox" ]; then
               IMAGE=$FIREFOX_GRID_IMAGE
           else
               echo "invalid browser"
