@@ -45,7 +45,7 @@ jobs:
               exit 1
           fi
           
-          docker run --name grid_container -d -p 4444 --shm-size=2gb $IMAGE
+          docker run --name grid_container -d -p 4444:4444 --shm-size=2gb $IMAGE
 
       - name: Run Tests
         env:
