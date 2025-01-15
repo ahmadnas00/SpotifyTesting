@@ -22,7 +22,11 @@ public class POMSpotifyLoginTest {
     public void setUp() {
         driver = getDriver();
         driver.manage().window().maximize();
-        driver.get("https://ded7-212-199-36-114.ngrok-free.app/login");
+        driver.get("https://demo.photoprism.app/library/browse");
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+
+        driver.findElement(By.className("p-expand-search")).click();
+        driver.findElement(By.className("p-countries-select")).click();
 
         try {
             Wait<WebDriver> wait = new WebDriverWait(driver, Duration.ofSeconds(5));
