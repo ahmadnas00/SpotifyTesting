@@ -8,19 +8,21 @@ on:
         type: string
         description: Grid to run tests on (local by default)
         default: http://localhost:4444
-      chrome:
-        description: 'chrome'
+
+      chrome_131_0:
+        description: 'Chrome (131.0)'
         required: false
         type: boolean
-      firefox:
-        description: 'chrome'
+
+      firefox_133_0:
+        description: 'Firefox (133.0)'
         required: false
         type: boolean
 
 jobs:
   TestChrome:
     runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.chrome == 'true' }}
+    if: ${{ github.event.inputs.chrome_131_0 == 'true' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -34,7 +36,7 @@ jobs:
       - name: Launch standalone grid - Chrome
         if: ${{ contains(github.event.inputs.grid_url, 'localhost') }}
         run: |
-          docker run --name grid_container -d -p 4444:4444 --shm-size=2gb selenium/standalone-firefox:133.0-geckodriver-0.35-grid-4.27.0-20250101
+          docker run --name grid_container -d -p 4444:4444 --shm-size=2gb selenium/standalone-chrome:131.0-chromedriver-131.0-grid-4.27.0-20250101
 
       - name: Run Tests
         run: |
@@ -48,7 +50,7 @@ jobs:
 
   TestFirefox:
     runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.firefox == 'true' }}
+    if: ${{ github.event.inputs.firefox_133_0 == 'true' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -62,7 +64,7 @@ jobs:
       - name: Launch standalone grid - Firefox
         if: ${{ contains(github.event.inputs.grid_url, 'localhost') }}
         run: |
-          docker run --name grid_container -d -p 4444:4444 --shm-size=2gb selenium/standalone-chrome:131.0-chromedriver-131.0-grid-4.27.0-20250101
+          docker run --name grid_container -d -p 4444:4444 --shm-size=2gb selenium/standalone-firefox:133.0-geckodriver-0.35-grid-4.27.0-20250101
 
       - name: Run Tests
         run: |
