@@ -34,7 +34,7 @@ jobs:
           java-version: '23'
 
       - name: Launch a standalone grid
-
+        if: ${{ contains(github.event.inputs.grid_url, 'localhost') }}
         run: |
           if [ "${{ github.event.inputs.browser }}" = "chrome" ]; then
               IMAGE=$CHROME_GRID_IMAGE
@@ -54,7 +54,7 @@ jobs:
         run: |
           mvn -q test
 
-      - name: Tear down grid
+      - name: Tear down grid if exists
         if: always()
         run: | 
-          docker stop grid_container
+          docker stop grid_container || true
