@@ -77,3 +77,14 @@ jobs:
           
           # Tear down grid if exists
           docker stop grid_container || true
+  Lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Audit URLs using Lighthouse
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          urls: |
+            https://1346-2a06-c701-4cda-7b00-f82d-eb25-87d7-1a10.ngrok-free.app/login
+          uploadArtifacts: true
+          temporaryPublicStorage: true
