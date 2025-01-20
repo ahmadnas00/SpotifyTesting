@@ -1,6 +1,0 @@
-ci:
-  collect:
-    url:
-      - http://www.google.com
-  upload:
-    target: temporary-public-storage
