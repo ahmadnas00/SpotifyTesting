@@ -1,5 +1,6 @@
 name: UI testing
 
+
 on:
   workflow_dispatch:
     inputs:
@@ -49,6 +50,7 @@ jobs:
           # Tear down grid if exists
           docker stop grid_container || true
 
+
   TestFirefox_133_0:
     name: Test Firefox 133.0
     runs-on: ubuntu-latest
@@ -72,8 +74,4 @@ jobs:
         run: |
           export BROWSER=firefox
           export GRID_URL=${{ github.event.inputs.grid_url }}
-          
-          mvn test -Dtest=**/selenium/*
-          
-          # Tear down grid if exists
-          docker stop grid_container || true
+  

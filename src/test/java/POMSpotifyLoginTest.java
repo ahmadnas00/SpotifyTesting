@@ -3,9 +3,14 @@ import org.example.LoginPage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
+
+import static org.example.DriverFactory.getDriver;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class POMSpotifyLoginTest {
@@ -14,9 +19,17 @@ public class POMSpotifyLoginTest {
 
     @BeforeEach
     public void setUp() {
-        driver = new ChromeDriver();
+        driver = getDriver();
         driver.manage().window().maximize();
-        driver.get("http://localhost:8082/login");
+        driver.get("https://c879-2a06-c701-4cda-7b00-f82d-eb25-87d7-1a10.ngrok-free.app/login");
+
+        try {
+            Wait<WebDriver> wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            WebElement visitSiteButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Visit Site']")));
+            visitSiteButton.click();
+        } catch (TimeoutException err) {
+            System.out.println("Ngrok warning page was not loaded");
+        }
 
         loginPage = new LoginPage(driver);
     }
